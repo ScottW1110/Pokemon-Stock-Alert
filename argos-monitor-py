@@ -1,41 +1,20 @@
 import os
 import requests
 
-PRODUCT_CODE = "9515194"
+PRODUCT_CODE = "9951370"
 
-STORE_POSTCODES = [
-    os.environ["STORE_POSTCODE_1"],
-    os.environ["STORE_POSTCODE_2"],
-]
+url = f"https://www.argos.co.uk/product/{PRODUCT_CODE}"
 
-NTFY_TOPIC = os.environ["NTFY_TOPIC"]
+headers = {
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Version/17.0 Mobile/15E148 Safari/604.1"
+}
 
-ARGOS_URL = f"https://www.argos.co.uk/product/{PRODUCT_CODE}"
+response = requests.get(url, headers=headers, timeout=15)
 
+print("Status:", response.status_code)
+print("Page length:", len(response.text))
 
-def send_notification(store):
-    message = f"🧪 Argos test product appears available!\n\nStore: {store}"
-
-    requests.post(
-        f"https://ntfy.sh/{NTFY_TOPIC}",
-        data=message.encode("utf-8"),
-        headers={
-            "Title": "Argos Stock Alert",
-            "Click": ARGOS_URL,
-        },
-        timeout=10,
-    )
-
-
-def check_product():
-    print(f"Checking Argos product {PRODUCT_CODE}")
-
-    # Temporary test notification.
-    # We'll replace this with the real Argos availability check
-    # once the GitHub Action is running correctly.
-    for store in STORE_POSTCODES:
-        print(f"Monitoring store: {store}")
-
-
-if __name__ == "__main__":
-    check_product()
+if "__NEXT_DATA__" in response.text:
+    print("NEXT_DATA_FOUND")
+else:
+    print("NEXT_DATA_NOT_FOUND")
