@@ -1,4 +1,4 @@
-name: Argos Test
+name: Argos API Test
 
 on:
   workflow_dispatch:
@@ -8,10 +8,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Run Argos test
+      - name: Test Argos availability endpoint
         run: |
-          python -m pip install requests
-          python argos-monitor.py
+          python - <<'PY'
+          import requests
+
+          url = "https://www.argos.co.uk/finder-api/product/9951370"
+
+          headers = {
+              "User-Agent": "Mozilla/5.0",
+              "Accept": "application/json",
+          }
+
+          response = requests.get(url, headers=headers, timeout=15)
+
+          print("Status:", response.status_code)
+          print("Content-Type:", response.headers.get("content-type"))
+          print("Response length:", len(response.text))
+          print("Response preview:")
+          print(response.text[:1000])
+          PY
