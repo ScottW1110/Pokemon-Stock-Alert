@@ -1,1 +1,41 @@
+import os
+import requests
 
+PRODUCT_CODE = "9515194"
+
+STORE_POSTCODES = [
+    os.environ["STORE_POSTCODE_1"],
+    os.environ["STORE_POSTCODE_2"],
+]
+
+NTFY_TOPIC = os.environ["NTFY_TOPIC"]
+
+ARGOS_URL = f"https://www.argos.co.uk/product/{PRODUCT_CODE}"
+
+
+def send_notification(store):
+    message = f"🧪 Argos test product appears available!\n\nStore: {store}"
+
+    requests.post(
+        f"https://ntfy.sh/{NTFY_TOPIC}",
+        data=message.encode("utf-8"),
+        headers={
+            "Title": "Argos Stock Alert",
+            "Click": ARGOS_URL,
+        },
+        timeout=10,
+    )
+
+
+def check_product():
+    print(f"Checking Argos product {PRODUCT_CODE}")
+
+    # Temporary test notification.
+    # We'll replace this with the real Argos availability check
+    # once the GitHub Action is running correctly.
+    for store in STORE_POSTCODES:
+        print(f"Monitoring store: {store}")
+
+
+if __name__ == "__main__":
+    check_product()
