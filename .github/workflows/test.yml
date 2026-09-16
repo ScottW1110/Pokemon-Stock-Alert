@@ -1,4 +1,4 @@
-name: Argos API Test
+name: Argos Availability Test
 
 on:
   workflow_dispatch:
@@ -8,23 +8,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Test Argos availability endpoint
+      - name: Test Argos availability service
         run: |
           python - <<'PY'
           import requests
 
-          url = "https://www.argos.co.uk/finder-api/product/9951370"
+          url = "https://www.argos.co.uk/stores/api/orchestrator/v0/locator/availability"
+
+          params = {
+              "origin": "LS81LD",
+              "maxResults": "10",
+              "maxDistance": "50",
+              "save": "pdp-ss:/",
+              "ssm": "true"
+          }
 
           headers = {
               "User-Agent": "Mozilla/5.0",
-              "Accept": "application/json",
+              "Accept": "application/json"
           }
 
-          response = requests.get(url, headers=headers, timeout=15)
+          r = requests.get(url, params=params, headers=headers, timeout=15)
 
-          print("Status:", response.status_code)
-          print("Content-Type:", response.headers.get("content-type"))
-          print("Response length:", len(response.text))
-          print("Response preview:")
-          print(response.text[:1000])
+          print("Status:", r.status_code)
+          print("Content-Type:", r.headers.get("content-type"))
+          print("Length:", len(r.text))
+          print("Response:")
+          print(r.text[:2000])
           PY
