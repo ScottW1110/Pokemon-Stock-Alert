@@ -11,5 +11,28 @@
   <button onclick="window.location.href='https://www.argos.co.uk/product/9515194'">
     Test Argos Product
   </button>
+
+  <br><br>
+
+  <button onclick="enableNotifications()">
+    🔔 Enable Notifications
+  </button>
+
+  <script>
+    async function enableNotifications() {
+      if (!("Notification" in window)) {
+        alert("Notifications are not supported here.");
+        return;
+      }
+
+      const permission = await Notification.requestPermission();
+
+      if (permission === "granted") {
+        alert("Notifications enabled!");
+      } else {
+        alert("Notifications were not enabled.");
+      }
+    }
+  </script>
 </body>
 </html>
