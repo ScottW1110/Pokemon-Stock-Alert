@@ -4,35 +4,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pokémon Stock Alert</title>
 </head>
+
 <body>
   <h1>🛒 Pokémon Stock Alert</h1>
-  <p>Test page — we'll add notifications next.</p>
+  <p>Argos Pokémon 30th Anniversary watchlist</p>
 
-  <button onclick="window.location.href='https://www.argos.co.uk/product/9515194'">
-    Test Argos Product
-  </button>
+  <h2>Watching 9 products</h2>
 
-  <br><br>
+  <ul>
+    <li>Lucario Tech Sticker — 993/7655</li>
+    <li>Sylveon ex Booster Pack — 966/3417</li>
+    <li>Greninja ex Booster Pack — 962/4085</li>
+    <li>Alolan Exeggutor Tech Sticker — 983/1919</li>
+    <li>Sylveon ex Box — 971/9691</li>
+    <li>Binder Collection — 965/6039</li>
+    <li>Eevee Booster Packs — 972/2121</li>
+    <li>Greninja ex Box — 898/2436</li>
+    <li>Elite Trainer Box — 995/1370</li>
+  </ul>
 
-  <button onclick="enableNotifications()">
-    🔔 Enable Notifications
-  </button>
-
-  <script>
-    async function enableNotifications() {
-      if (!("Notification" in window)) {
-        alert("Notifications are not supported here.");
-        return;
-      }
-
-      const permission = await Notification.requestPermission();
-
-      if (permission === "granted") {
-        alert("Notifications enabled!");
-      } else {
-        alert("Notifications were not enabled.");
-      }
-    }
-  </script>
+  <p>🔔 Stock monitoring will be connected next.</p>
 </body>
 </html>
